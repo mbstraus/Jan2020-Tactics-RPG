@@ -16,5 +16,14 @@ public class PlayerPhaseState : BattlePhaseState
 
     public override void Tick()
     {
+        if (Input.GetKeyDown(KeyCode.N))
+        {
+            battlePhaseManager.SetState(new EnemyPhaseState(battlePhaseManager));
+        }
+    }
+
+    public override void OnStateEnter()
+    {
+        UIManager.Instance.ShowPlayerPhase();
     }
 }
