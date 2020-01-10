@@ -1,12 +1,18 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using TMPro;
 
 public class UIManager : MonoBehaviour
 {
     public static UIManager Instance;
-    private PlayerPhaseStartHUD PlayerPhase;
-    private EnemyPhaseStartHUD EnemyPhase;
+
+    private Unit SelectedUnit;
+    [SerializeField] private PlayerPhaseStartHUD PlayerPhase;
+    [SerializeField] private EnemyPhaseStartHUD EnemyPhase;
+    [SerializeField] private SelectedUnitHUD SelectedUnitHUD;
+    [SerializeField] private TextMeshProUGUI LevelField;
+    [SerializeField] private TextMeshProUGUI CurrentHPField;
+    [SerializeField] private TextMeshProUGUI MaxHPField;
+    [SerializeField] private TextMeshProUGUI SelectedUnitName;
 
     private void Awake()
     {
@@ -15,8 +21,18 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
-        PlayerPhase = FindObjectOfType<PlayerPhaseStartHUD>();
-        EnemyPhase = FindObjectOfType<EnemyPhaseStartHUD>();
+        SetSelectedUnit(null);
+    }
+
+    private void Update()
+    {
+        if (SelectedUnit != null)
+        {
+            LevelField.text = SelectedUnit.Level.ToString();
+            CurrentHPField.text = SelectedUnit.CurrentHealthPoints.ToString();
+            MaxHPField.text = SelectedUnit.MaxHealthPoints.ToString();
+            SelectedUnitName.text = SelectedUnit.Name;
+        }
     }
 
     public void ShowPlayerPhase()
@@ -29,5 +45,18 @@ public class UIManager : MonoBehaviour
     {
         Animation anim = EnemyPhase.GetComponent<Animation>();
         anim.Play("PhaseHUDAnimation");
+    }
+
+    public void SetSelectedUnit(Unit selectedUnit)
+    {
+        SelectedUnit = selectedUnit;
+        if (selectedUnit != null)
+        {
+            SelectedUnitHUD.gameObject.SetActive(true);
+        }
+        else
+        {
+            SelectedUnitHUD.gameObject.SetActive(false);
+        }
     }
 }

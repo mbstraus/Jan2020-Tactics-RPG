@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.UI;
@@ -7,9 +9,11 @@ public class BattlePhaseManager : MonoBehaviour
 {
     public static BattlePhaseManager Instance;
 
+    [SerializeField] private GameObject PlayerUnitsContainer;
     private BattlePhaseState CurrentState;
     private Tilemap tilemap;
     private MapTile[,] Map;
+    private Unit[] Units;
 
     private void Awake()
     {
@@ -39,6 +43,8 @@ public class BattlePhaseManager : MonoBehaviour
                 }
             }
         }
+
+        Units = PlayerUnitsContainer.GetComponentsInChildren<Unit>();
 
         SetState(new PlayerPhaseState(this));
     }
@@ -70,8 +76,19 @@ public class BattlePhaseManager : MonoBehaviour
         }
         catch (IndexOutOfRangeException ex)
         {
-            Debug.LogWarning("Attempted to click outside of grid bounds. - " + ex.Message);
             return null;
         }
+    }
+
+    public Unit GetUnitAtTile(MapTile mapTile)
+    {
+        foreach (var unit in Units)
+        {
+            if ((int) unit.transform.position.x == mapTile.GridPosition.x && (int) unit.transform.position.y == mapTile.GridPosition.y)
+            {
+                return unit.GetComponent<Unit>();
+            }
+        }
+        return null;
     }
 }
