@@ -1,11 +1,12 @@
 ﻿using UnityEngine;
 using TMPro;
+using System;
+using System.Collections.Generic;
 
 public class UIManager : MonoBehaviour
 {
     public static UIManager Instance;
 
-    private Unit SelectedUnit;
     [SerializeField] private PlayerPhaseStartHUD PlayerPhase;
     [SerializeField] private EnemyPhaseStartHUD EnemyPhase;
     [SerializeField] private SelectedUnitHUD SelectedUnitHUD;
@@ -13,6 +14,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI CurrentHPField;
     [SerializeField] private TextMeshProUGUI MaxHPField;
     [SerializeField] private TextMeshProUGUI SelectedUnitName;
+    [SerializeField] private GameObject MoveRangeIndicatorsContainer;
+    [SerializeField] private GameObject MoveRangeIndicatorPrefab;
 
     private void Awake()
     {
@@ -21,17 +24,40 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
-        SetSelectedUnit(null);
     }
 
     private void Update()
     {
-        if (SelectedUnit != null)
+        Unit selectedUnit = BattlePhaseManager.Instance.SelectedUnit;
+        if (selectedUnit != null)
         {
-            LevelField.text = SelectedUnit.Level.ToString();
-            CurrentHPField.text = SelectedUnit.CurrentHealthPoints.ToString();
-            MaxHPField.text = SelectedUnit.MaxHealthPoints.ToString();
-            SelectedUnitName.text = SelectedUnit.Name;
+            SelectedUnitHUD.gameObject.SetActive(true);
+            LevelField.text = selectedUnit.Level.ToString();
+            CurrentHPField.text = selectedUnit.CurrentHealthPoints.ToString();
+            MaxHPField.text = selectedUnit.MaxHealthPoints.ToString();
+            SelectedUnitName.text = selectedUnit.Name;
+        }
+        else if (selectedUnit == null)
+        {
+            SelectedUnitHUD.gameObject.SetActive(false);
+        }
+    }
+
+    public void ShowMoveRange(List<MapTile> accessableTiles)
+    {
+        ClearMoveRange();
+        foreach (var tile in accessableTiles)
+        {
+            Vector3 position = new Vector3(tile.GridPosition.x + 0.5f, tile.GridPosition.y + 0.5f, 0f);
+            Instantiate(MoveRangeIndicatorPrefab, position, Quaternion.identity, MoveRangeIndicatorsContainer.transform);
+        }
+    }
+
+    public void ClearMoveRange()
+    {
+        foreach (Transform child in MoveRangeIndicatorsContainer.transform)
+        {
+            Destroy(child.gameObject);
         }
     }
 
@@ -45,18 +71,5 @@ public class UIManager : MonoBehaviour
     {
         Animation anim = EnemyPhase.GetComponent<Animation>();
         anim.Play("PhaseHUDAnimation");
-    }
-
-    public void SetSelectedUnit(Unit selectedUnit)
-    {
-        SelectedUnit = selectedUnit;
-        if (selectedUnit != null)
-        {
-            SelectedUnitHUD.gameObject.SetActive(true);
-        }
-        else
-        {
-            SelectedUnitHUD.gameObject.SetActive(false);
-        }
     }
 }

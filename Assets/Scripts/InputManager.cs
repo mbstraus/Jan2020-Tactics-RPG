@@ -44,11 +44,11 @@ public class InputManager : MonoBehaviour
                 Unit tileUnit = BattlePhaseManager.Instance.GetUnitAtTile(mapTile);
                 if (tileUnit != null)
                 {
-                    UIManager.Instance.SetSelectedUnit(tileUnit);
+                    BattlePhaseManager.Instance.SetSelectedUnit(tileUnit);
                 }
                 else
                 {
-                    UIManager.Instance.SetSelectedUnit(null);
+                    BattlePhaseManager.Instance.SetSelectedUnit(null);
                 }
             }
         }

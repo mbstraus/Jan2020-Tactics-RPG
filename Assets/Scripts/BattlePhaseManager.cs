@@ -14,6 +14,7 @@ public class BattlePhaseManager : MonoBehaviour
     private Tilemap tilemap;
     private MapTile[,] Map;
     private Unit[] Units;
+    public Unit SelectedUnit { get; private set; }
 
     private void Awake()
     {
@@ -45,6 +46,7 @@ public class BattlePhaseManager : MonoBehaviour
         }
 
         Units = PlayerUnitsContainer.GetComponentsInChildren<Unit>();
+        SetSelectedUnit(null);
 
         SetState(new PlayerPhaseState(this));
     }
@@ -74,7 +76,7 @@ public class BattlePhaseManager : MonoBehaviour
         {
             return Map[x, y];
         }
-        catch (IndexOutOfRangeException ex)
+        catch (IndexOutOfRangeException)
         {
             return null;
         }
@@ -90,5 +92,65 @@ public class BattlePhaseManager : MonoBehaviour
             }
         }
         return null;
+    }
+
+    public List<MapTile> GetAdjacentTiles(int x, int y)
+    {
+        List<MapTile> returnList = new List<MapTile>();
+        MapTile north = GetTileAt(x, y + 1);
+        MapTile south = GetTileAt(x, y - 1);
+        MapTile east = GetTileAt(x + 1, y);
+        MapTile west = GetTileAt(x - 1, y);
+        if (north != null) returnList.Add(north);
+        if (south != null) returnList.Add(south);
+        if (east != null) returnList.Add(east);
+        if (west != null) returnList.Add(west);
+        return returnList;
+    }
+
+    public void SetSelectedUnit(Unit selectedUnit)
+    {
+        SelectedUnit = selectedUnit;
+        UIManager.Instance.ClearMoveRange();
+
+        if (selectedUnit != null)
+        {
+            List<MapTile> accessableTiles = CalculateMoveRange(selectedUnit);
+            UIManager.Instance.ShowMoveRange(accessableTiles);
+        }
+    }
+
+    private List<MapTile> CalculateMoveRange(Unit selectedUnit)
+    {
+        int unitPositionX = (int)selectedUnit.gameObject.transform.position.x;
+        int unitPositionY = (int)selectedUnit.gameObject.transform.position.y;
+        MapTile currentTile = GetTileAt(unitPositionX, unitPositionY);
+
+        int moveCost = 0;
+        List<MapTile> accessableTiles = new List<MapTile>();
+
+        ProcessTile(selectedUnit, currentTile, accessableTiles, moveCost);
+
+        return accessableTiles;
+    }
+
+    private void ProcessTile(Unit selectedUnit, MapTile tileToProcess, List<MapTile> accessableTiles, int moveCost)
+    {
+        int localMoveCost = moveCost + tileToProcess.GetMoveCost();
+        Debug.Log("Processing Tile: " + tileToProcess.GridPosition.ToString() + " - " + localMoveCost);
+        if (localMoveCost > selectedUnit.Movement)
+        {
+            return;
+        }
+        if (!accessableTiles.Contains(tileToProcess))
+        {
+            accessableTiles.Add(tileToProcess);
+        }
+        List<MapTile> adjacentTiles = GetAdjacentTiles(tileToProcess.GridPosition.x, tileToProcess.GridPosition.y);
+        foreach (var adjacentTile in adjacentTiles)
+        {
+            Debug.Log("Adjacent Tile for " + tileToProcess.GridPosition.ToString() + ": " + adjacentTile.GridPosition.ToString() + " - " + adjacentTile.GetMoveCost());
+            ProcessTile(selectedUnit, adjacentTile, accessableTiles, localMoveCost);
+        }
     }
 }

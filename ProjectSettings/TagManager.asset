@@ -41,6 +41,12 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Map
+    uniqueID: 24232995
+    locked: 0
+  - name: Overlays
+    uniqueID: 2878657165
+    locked: 0
   - name: Units
     uniqueID: 1169760153
     locked: 0

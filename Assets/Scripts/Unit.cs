@@ -15,4 +15,5 @@ public abstract class Unit : MonoBehaviour
     [SerializeField] public int Luck;
     [SerializeField] public int Defense;
     [SerializeField] public int Resistance;
+    [SerializeField] public int Movement;
 }

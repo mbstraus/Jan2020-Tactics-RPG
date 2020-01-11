@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -20,6 +21,15 @@ public class PlayerPhaseState : BattlePhaseState
         {
             battlePhaseManager.SetState(new EnemyPhaseState(battlePhaseManager));
         }
+
+        /*
+        Unit selectedUnit = battlePhaseManager.SelectedUnit;
+        if (selectedUnit != null)
+        {
+            List<MapTile> accessableTiles = CalculateMoveRange(selectedUnit);
+            UIManager.Instance.ShowMoveRange(accessableTiles);
+        }
+        */
     }
 
     public override void OnStateEnter()
