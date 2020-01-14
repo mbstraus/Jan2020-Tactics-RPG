@@ -4,6 +4,10 @@ using UnityEngine;
 
 public abstract class Unit : MonoBehaviour
 {
+    public enum UnitTeam
+    {
+        PLAYER, ENEMY
+    }
     [SerializeField] public string Name;
     [SerializeField] public int CurrentHealthPoints;
     [SerializeField] public int MaxHealthPoints;
@@ -16,4 +20,5 @@ public abstract class Unit : MonoBehaviour
     [SerializeField] public int Defense;
     [SerializeField] public int Resistance;
     [SerializeField] public int Movement;
+    [SerializeField] public UnitTeam Team;
 }

@@ -10,10 +10,12 @@ public class BattlePhaseManager : MonoBehaviour
     public static BattlePhaseManager Instance;
 
     [SerializeField] private GameObject PlayerUnitsContainer;
-    private BattlePhaseState CurrentState;
+    public BattlePhaseState CurrentState { get; private set; }
     private Tilemap tilemap;
     private MapTile[,] Map;
     private Unit[] Units;
+    public List<Unit> PlayerUnits { get; private set; }
+    public List<Unit> EnemyUnits { get; private set; }
     public Unit SelectedUnit { get; private set; }
 
     private void Awake()
@@ -46,6 +48,19 @@ public class BattlePhaseManager : MonoBehaviour
         }
 
         Units = PlayerUnitsContainer.GetComponentsInChildren<Unit>();
+        PlayerUnits = new List<Unit>();
+        EnemyUnits = new List<Unit>();
+        foreach (var unit in Units)
+        {
+            if (unit.Team == Unit.UnitTeam.PLAYER)
+            {
+                PlayerUnits.Add(unit);
+            }
+            else
+            {
+                EnemyUnits.Add(unit);
+            }
+        }
         SetSelectedUnit(null);
 
         SetState(new PlayerPhaseState(this));
@@ -137,7 +152,6 @@ public class BattlePhaseManager : MonoBehaviour
     private void ProcessTile(Unit selectedUnit, MapTile tileToProcess, List<MapTile> accessableTiles, int moveCost)
     {
         int localMoveCost = moveCost + tileToProcess.GetMoveCost();
-        Debug.Log("Processing Tile: " + tileToProcess.GridPosition.ToString() + " - " + localMoveCost);
         if (localMoveCost > selectedUnit.Movement)
         {
             return;
@@ -149,8 +163,13 @@ public class BattlePhaseManager : MonoBehaviour
         List<MapTile> adjacentTiles = GetAdjacentTiles(tileToProcess.GridPosition.x, tileToProcess.GridPosition.y);
         foreach (var adjacentTile in adjacentTiles)
         {
-            Debug.Log("Adjacent Tile for " + tileToProcess.GridPosition.ToString() + ": " + adjacentTile.GridPosition.ToString() + " - " + adjacentTile.GetMoveCost());
             ProcessTile(selectedUnit, adjacentTile, accessableTiles, localMoveCost);
         }
+    }
+
+    public void MovePlayerTo(MapTile targetTile)
+    {
+        SelectedUnit.gameObject.transform.position = new Vector3(targetTile.GridPosition.x + 0.5f, targetTile.GridPosition.y + 0.5f, 0f);
+        CurrentState.UnitMoved(SelectedUnit);
     }
 }

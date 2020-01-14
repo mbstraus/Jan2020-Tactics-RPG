@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class EnemyPhaseState : BattlePhaseState
 {
+    private List<Unit> RemainingUnits;
+
     public EnemyPhaseState() : base()
     {
 
@@ -11,7 +13,7 @@ public class EnemyPhaseState : BattlePhaseState
 
     public EnemyPhaseState(BattlePhaseManager battlePhaseManager) : base(battlePhaseManager)
     {
-
+        RemainingUnits = new List<Unit>(battlePhaseManager.EnemyUnits);
     }
 
     public override void Tick()
@@ -25,5 +27,14 @@ public class EnemyPhaseState : BattlePhaseState
     public override void OnStateEnter()
     {
         UIManager.Instance.ShowEnemyPhase();
+    }
+
+    public override void UnitMoved(Unit unit)
+    {
+        RemainingUnits.Remove(unit);
+        if (RemainingUnits.Count == 0)
+        {
+            battlePhaseManager.SetState(new EnemyPhaseState(battlePhaseManager));
+        }
     }
 }

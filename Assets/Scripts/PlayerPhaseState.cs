@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class PlayerPhaseState : BattlePhaseState
 {
+    private List<Unit> RemainingUnits;
+
     public PlayerPhaseState() : base()
     {
 
@@ -12,7 +14,7 @@ public class PlayerPhaseState : BattlePhaseState
 
     public PlayerPhaseState(BattlePhaseManager battlePhaseManager) : base(battlePhaseManager)
     {
-
+        RemainingUnits = new List<Unit>(battlePhaseManager.PlayerUnits);
     }
 
     public override void Tick()
@@ -21,19 +23,19 @@ public class PlayerPhaseState : BattlePhaseState
         {
             battlePhaseManager.SetState(new EnemyPhaseState(battlePhaseManager));
         }
-
-        /*
-        Unit selectedUnit = battlePhaseManager.SelectedUnit;
-        if (selectedUnit != null)
-        {
-            List<MapTile> accessableTiles = CalculateMoveRange(selectedUnit);
-            UIManager.Instance.ShowMoveRange(accessableTiles);
-        }
-        */
     }
 
     public override void OnStateEnter()
     {
         UIManager.Instance.ShowPlayerPhase();
+    }
+
+    public override void UnitMoved(Unit unit)
+    {
+        RemainingUnits.Remove(unit);
+        if (RemainingUnits.Count == 0)
+        {
+            battlePhaseManager.SetState(new EnemyPhaseState(battlePhaseManager));
+        }
     }
 }

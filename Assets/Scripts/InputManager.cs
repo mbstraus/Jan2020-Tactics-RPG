@@ -32,7 +32,7 @@ public class InputManager : MonoBehaviour
             activeTileInstance.SetActive(false);
         }
 
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && BattlePhaseManager.Instance.CurrentState is PlayerPhaseState)
         {
             if (mouseLocation.x < 0 || mouseLocation.y < 0)
             {
@@ -48,6 +48,14 @@ public class InputManager : MonoBehaviour
                 }
                 else
                 {
+                    if (BattlePhaseManager.Instance.SelectedUnit != null)
+                    {
+                        RaycastHit2D hit = Physics2D.Raycast(mouseLocation, Vector2.zero);
+                        if (hit.collider != null)
+                        {
+                            BattlePhaseManager.Instance.MovePlayerTo(mapTile);
+                        }
+                    }
                     BattlePhaseManager.Instance.SetSelectedUnit(null);
                 }
             }

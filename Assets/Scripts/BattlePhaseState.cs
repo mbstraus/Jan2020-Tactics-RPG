@@ -11,6 +11,8 @@ public abstract class BattlePhaseState
     public virtual void OnStateEnter() { }
     public virtual void OnStateExit() { }
 
+    public abstract void UnitMoved(Unit unit);
+
     public BattlePhaseState()
     {
 
