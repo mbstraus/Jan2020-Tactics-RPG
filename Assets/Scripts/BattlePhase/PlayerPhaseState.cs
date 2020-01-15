@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerPhaseState : BattlePhaseState
@@ -12,7 +10,7 @@ public class PlayerPhaseState : BattlePhaseState
 
     }
 
-    public PlayerPhaseState(BattlePhaseManager battlePhaseManager) : base(battlePhaseManager)
+    public PlayerPhaseState(BattleManager battlePhaseManager) : base(battlePhaseManager)
     {
         RemainingUnits = new List<Unit>(battlePhaseManager.PlayerUnits);
     }

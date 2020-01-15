@@ -11,7 +11,7 @@ public class EnemyPhaseState : BattlePhaseState
 
     }
 
-    public EnemyPhaseState(BattlePhaseManager battlePhaseManager) : base(battlePhaseManager)
+    public EnemyPhaseState(BattleManager battlePhaseManager) : base(battlePhaseManager)
     {
         RemainingUnits = new List<Unit>(battlePhaseManager.EnemyUnits);
     }
