@@ -1,64 +1,63 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Tilemaps;
+﻿using UnityEngine;
 
 public class InputManager : MonoBehaviour
 {
-    private Camera activeCamera;
-    private Tilemap tilemap;
+    [SerializeField] private Camera activeCamera;
     [SerializeField] private GameObject ActiveTilePrefab;
     private GameObject activeTileInstance;
+    private MapTile lastMapTile;
+
+    public delegate void TileHoverEvent(MapTile tile);
+    private TileHoverEvent OnTileHover;
+
+    public delegate void TileSelectedEvent(MapTile selectedTile, Vector3 mousePosition);
+    private TileSelectedEvent OnTileSelected;
 
     void Start()
     {
-        activeCamera = Camera.main;
-        tilemap = FindObjectOfType<Tilemap>();
+        if (activeCamera == null)
+        {
+            activeCamera = Camera.main;
+        }
         activeTileInstance = Instantiate(ActiveTilePrefab);
         activeTileInstance.SetActive(false);
+    }
+
+    public void RegisterMouseOverTileEvent(TileHoverEvent onTileHover)
+    {
+        OnTileHover += onTileHover;
+    }
+    public void UnregisterMouseOverTileEvent(TileHoverEvent onTileHover)
+    {
+        OnTileHover -= onTileHover;
+    }
+
+    public void RegisterTileSelectedEvent(TileSelectedEvent onTileSelected)
+    {
+        OnTileSelected += onTileSelected;
+    }
+    public void UnregisterTileSelectedEvent(TileSelectedEvent onTileSelected)
+    {
+        OnTileSelected -= onTileSelected;
     }
 
     void Update()
     {
         Vector3 mouseLocation = activeCamera.ScreenToWorldPoint(Input.mousePosition);
-        MapTile mapTile = BattlePhaseManager.Instance.GetTileAt((int)mouseLocation.x, (int)mouseLocation.y);
-        if (mouseLocation.x >= 0 && mouseLocation.y >= 0 && mapTile != null)
+        MapTile mapTile = BattleManager.Instance.GetTileAt((int)mouseLocation.x, (int)mouseLocation.y);
+        if (mouseLocation.x <= 0 || mouseLocation.y <= 0)
         {
-            activeTileInstance.transform.position = new Vector3(mapTile.GridPosition.x + 0.5f, mapTile.GridPosition.y + 0.5f, 0f);
-            activeTileInstance.SetActive(true);
+            mapTile = null;
         }
-        else
+        if (lastMapTile == null || lastMapTile != mapTile)
         {
-            activeTileInstance.SetActive(false);
+            OnTileHover(mapTile);
+            lastMapTile = mapTile;
         }
 
-        if (Input.GetMouseButtonDown(0) && BattlePhaseManager.Instance.CurrentState is PlayerPhaseState)
+        if (Input.GetMouseButtonDown(0) && mapTile != null)
         {
-            if (mouseLocation.x < 0 || mouseLocation.y < 0)
-            {
-                Debug.Log("Tile clicked out of bounds, Original mouse click: " + mouseLocation);
-            }
-            else if (mapTile != null)
-            {
-                Debug.Log("Tile clicked at " + mapTile.GridPosition + " - Tile Type: " + mapTile.TileType + ", Original mouse click: " + mouseLocation);
-                Unit tileUnit = BattlePhaseManager.Instance.GetUnitAtTile(mapTile);
-                if (tileUnit != null)
-                {
-                    BattlePhaseManager.Instance.SetSelectedUnit(tileUnit);
-                }
-                else
-                {
-                    if (BattlePhaseManager.Instance.SelectedUnit != null)
-                    {
-                        RaycastHit2D hit = Physics2D.Raycast(mouseLocation, Vector2.zero);
-                        if (hit.collider != null)
-                        {
-                            BattlePhaseManager.Instance.MovePlayerTo(mapTile);
-                        }
-                    }
-                    BattlePhaseManager.Instance.SetSelectedUnit(null);
-                }
-            }
+            OnTileSelected(mapTile, mouseLocation);
         }
     }
 }

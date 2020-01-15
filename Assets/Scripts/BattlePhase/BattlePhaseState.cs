@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class BattlePhaseState
 {
-    protected BattlePhaseManager battlePhaseManager;
+    protected BattleManager battlePhaseManager;
 
     public abstract void Tick();
 
@@ -18,7 +18,7 @@ public abstract class BattlePhaseState
 
     }
 
-    public BattlePhaseState(BattlePhaseManager battlePhaseManager)
+    public BattlePhaseState(BattleManager battlePhaseManager)
     {
         this.battlePhaseManager = battlePhaseManager;
     }

@@ -10,10 +10,13 @@ public class UIManager : MonoBehaviour
     [SerializeField] private PlayerPhaseStartHUD PlayerPhase;
     [SerializeField] private EnemyPhaseStartHUD EnemyPhase;
     [SerializeField] private SelectedUnitHUD SelectedUnitHUD;
+
     [SerializeField] private TextMeshProUGUI LevelField;
     [SerializeField] private TextMeshProUGUI CurrentHPField;
     [SerializeField] private TextMeshProUGUI MaxHPField;
     [SerializeField] private TextMeshProUGUI SelectedUnitName;
+
+    [SerializeField] private GameObject ActiveTileInstance;
     [SerializeField] private GameObject MoveRangeIndicatorsContainer;
     [SerializeField] private GameObject MoveRangeIndicatorPrefab;
 
@@ -24,11 +27,15 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
+        InputManager inputManager = FindObjectOfType<InputManager>();
+        inputManager.RegisterMouseOverTileEvent(ShowTileHover);
+
+        BattleManager.Instance.RegisterOnUnitSelectedEvent(OnUnitSelected);
     }
 
     private void Update()
     {
-        Unit selectedUnit = BattlePhaseManager.Instance.SelectedUnit;
+        Unit selectedUnit = BattleManager.Instance.SelectedUnit;
         if (selectedUnit != null)
         {
             SelectedUnitHUD.gameObject.SetActive(true);
@@ -40,6 +47,18 @@ public class UIManager : MonoBehaviour
         else if (selectedUnit == null)
         {
             SelectedUnitHUD.gameObject.SetActive(false);
+        }
+    }
+
+    public void OnUnitSelected(Unit selectedUnit)
+    {
+        if (selectedUnit != null)
+        {
+            ShowMoveRange(selectedUnit.CalculateMoveRange());
+        }
+        else
+        {
+            ClearMoveRange();
         }
     }
 
@@ -71,5 +90,18 @@ public class UIManager : MonoBehaviour
     {
         Animation anim = EnemyPhase.GetComponent<Animation>();
         anim.Play("PhaseHUDAnimation");
+    }
+
+    public void ShowTileHover(MapTile mapTile)
+    {
+        if (mapTile != null)
+        {
+            ActiveTileInstance.transform.position = new Vector3(mapTile.GridPosition.x + 0.5f, mapTile.GridPosition.y + 0.5f, 0f);
+            ActiveTileInstance.SetActive(true);
+        }
+        else
+        {
+            ActiveTileInstance.SetActive(false);
+        }
     }
 }
