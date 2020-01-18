@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class MapTile
+public class MapTile : IComparer<MapTile>
 {
-    public string TileType;
-    public Vector2Int GridPosition;
-    public TileBase BaseTile;
+    public string TileType { get; private set; }
+    public Vector2Int GridPosition { get; private set; }
+    public TileBase BaseTile { get; private set; }
 
     public MapTile()
     {
@@ -37,5 +37,10 @@ public class MapTile
             default:
                 return 99;
         }
+    }
+
+    public int Compare(MapTile x, MapTile y)
+    {
+        throw new System.NotImplementedException();
     }
 }

@@ -121,6 +121,36 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &42569647
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 42569648}
+  m_Layer: 0
+  m_Name: Movement Path
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &42569648
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 42569647}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &349465428
 GameObject:
   m_ObjectHideFlags: 0
@@ -1791,7 +1821,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1806334792}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.7457554, y: 3.5376759, z: -2.0644531}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1992,6 +2022,18 @@ MonoBehaviour:
   MoveRangeIndicatorsContainer: {fileID: 1806334792}
   MoveRangeIndicatorPrefab: {fileID: 4713607437811458402, guid: b87dcb9ef41c25442ad22e173e77d1bd,
     type: 3}
+  MovementArrowPrefabs:
+  - {fileID: 4970871949558586442, guid: 7917133137037ae408f593e88f861fa5, type: 3}
+  - {fileID: 8837355418934919587, guid: af2b9437e56daf84ab311a275d5f9848, type: 3}
+  - {fileID: 4002571329134113741, guid: 4d794da5c6f15384489d7704c0dc66bb, type: 3}
+  - {fileID: 4236804749737899637, guid: a6bbecaa78b33204fae21225903f0e79, type: 3}
+  - {fileID: 5129727362551454679, guid: ab7d2767162fcac46a80c33e8c01d33b, type: 3}
+  - {fileID: 2468076286943083270, guid: ccc5d2225c8c5a9479b5373ebcf553d2, type: 3}
+  - {fileID: 7005955918979398544, guid: 93b5d7f5e913afc4bac6f065b7eec2ac, type: 3}
+  - {fileID: 5178126760314458999, guid: fda1c69cda4cc904ab3157c8324804de, type: 3}
+  - {fileID: 5558762251231664208, guid: 1d015eb0226beb944a093f521dec9dc3, type: 3}
+  - {fileID: 5629970707647912416, guid: c05b3923eff9ff0439223ccdfa99510a, type: 3}
+  MovementPathContainer: {fileID: 42569647}
 --- !u!4 &1992864685
 Transform:
   m_ObjectHideFlags: 0
@@ -2000,7 +2042,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1992864683}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 367.35544, y: 249.20819, z: -76.04525}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}

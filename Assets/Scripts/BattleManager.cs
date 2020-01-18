@@ -125,7 +125,7 @@ public class BattleManager : MonoBehaviour
         CurrentState.UnitMoved(SelectedUnit);
     }
 
-    public void OnTileSelected(MapTile selectedTile, Vector3 mouseLocation)
+    public void OnTileSelected(MapTile selectedTile, Vector3 mouseLocation, bool isTileAccessible)
     {
         if (CurrentState is PlayerPhaseState && selectedTile != null)
         {
@@ -137,13 +137,9 @@ public class BattleManager : MonoBehaviour
             }
             else
             {
-                if (SelectedUnit != null)
+                if (isTileAccessible)
                 {
-                    RaycastHit2D hit = Physics2D.Raycast(mouseLocation, Vector2.zero);
-                    if (hit.collider != null)
-                    {
-                        MovePlayerTo(selectedTile);
-                    }
+                    MovePlayerTo(selectedTile);
                 }
                 SetSelectedUnit(null);
                 OnUnitSelected(tileUnit);

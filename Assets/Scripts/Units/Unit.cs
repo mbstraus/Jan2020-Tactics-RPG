@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -52,5 +53,71 @@ public abstract class Unit : MonoBehaviour
         {
             ProcessTile(adjacentTile, accessableTiles, localMoveCost);
         }
+    }
+
+    public List<MapTile> DetermineMovePath(MapTile mapTile)
+    {
+        int unitPositionX = (int)transform.position.x;
+        int unitPositionY = (int)transform.position.y;
+
+        MoveCostMapTile currentTile = new MoveCostMapTile(BattleManager.Instance.GetTileAt(unitPositionX, unitPositionY), 0, null);
+        Queue<MoveCostMapTile> processingQueue = new Queue<MoveCostMapTile>();
+        List<MapTile> processedTiles = new List<MapTile>();
+        List<MoveCostMapTile> adjacentTiles = GetAdjacentMoveCostMapTiles(currentTile, processedTiles);
+        processedTiles.Add(currentTile.MapTile);
+        EnqueueAdjacentTiles(processingQueue, adjacentTiles);
+
+        while (processingQueue.Count > 0)
+        {
+            var adjacentTile = processingQueue.Dequeue();
+            processedTiles.Add(adjacentTile.MapTile);
+            if (adjacentTile.MapTile == mapTile)
+            {
+                return BuildPath(adjacentTile);
+            }
+            adjacentTiles = GetAdjacentMoveCostMapTiles(adjacentTile, processedTiles);
+            EnqueueAdjacentTiles(processingQueue, adjacentTiles);
+        }
+        Debug.LogError("Failed to build path to tile!");
+        return new List<MapTile>();
+    }
+
+    private void EnqueueAdjacentTiles(Queue<MoveCostMapTile> processingQueue, List<MoveCostMapTile> adjacentTiles)
+    {
+        foreach (var adjacentTile in adjacentTiles)
+        {
+            processingQueue.Enqueue(adjacentTile);
+        }
+    }
+
+    private List<MoveCostMapTile> GetAdjacentMoveCostMapTiles(MoveCostMapTile currentTile, List<MapTile> processedTiles)
+    {
+        List<MapTile> adjacentTiles = BattleManager.Instance.GetAdjacentTiles(currentTile.MapTile.GridPosition.x, currentTile.MapTile.GridPosition.y);
+        List<MoveCostMapTile> returnList = new List<MoveCostMapTile>();
+        foreach (var adjacentTile in adjacentTiles)
+        {
+            if (processedTiles.Contains(adjacentTile))
+            {
+                continue;
+            }
+            MoveCostMapTile tile = new MoveCostMapTile(adjacentTile, currentTile.Cost + adjacentTile.GetMoveCost(), currentTile);
+            returnList.Add(tile);
+        }
+        return returnList;
+    }
+
+    private List<MapTile> BuildPath(MoveCostMapTile moveCostAdjacentTile)
+    {
+        List<MapTile> moveList = new List<MapTile>();
+        MoveCostMapTile current = moveCostAdjacentTile;
+        moveList.Add(current.MapTile);
+        while (current.PreviousMapTile != null)
+        {
+            current = current.PreviousMapTile;
+            moveList.Add(current.MapTile);
+        }
+
+        moveList.Reverse();
+        return moveList;
     }
 }
