@@ -53,12 +53,12 @@ public class InputManager : MonoBehaviour
         }
         if (lastMapTile == null || lastMapTile != mapTile)
         {
-            OnTileHover(mapTile, lastMapTile, isTileAccessible, isTileAttackable);
             if (isTileAccessible)
             {
                 lastMapTile = mapTile;
             }
         }
+        OnTileHover(mapTile, lastMapTile, isTileAccessible, isTileAttackable);
 
         if (Input.GetMouseButtonDown(0) && mapTile != null)
         {
@@ -68,21 +68,47 @@ public class InputManager : MonoBehaviour
 
     private bool IsSelectedTileAccessible(Vector3 mouseLocation)
     {
-        RaycastHit2D hit = Physics2D.Raycast(mouseLocation, Vector2.zero);
-        if (hit.collider != null && hit.collider.gameObject.GetComponent<MoveRangeIndicator>() != null)
+        RaycastHit2D[] hits = Physics2D.RaycastAll(mouseLocation, Vector2.zero);
+        bool hasUnit = false;
+        bool isAccessible = false;
+        foreach (var hit in hits)
         {
-            return true;
+            if (hit.collider != null && hit.collider.gameObject.GetComponent<MoveRangeIndicator>() != null)
+            {
+                isAccessible = true;
+            }
+            if (hit.collider != null && hit.collider.gameObject.GetComponent<Unit>() != null)
+            {
+                hasUnit = true;
+            }
         }
-        return false;
+        return isAccessible && !hasUnit;
     }
 
     private bool IsSelectedTileAttackable(Vector3 mouseLocation)
     {
-        RaycastHit2D hit = Physics2D.Raycast(mouseLocation, Vector2.zero);
-        if (hit.collider != null && hit.collider.gameObject.GetComponent<AttackRangeIndicator>() != null)
+        RaycastHit2D[] hits = Physics2D.RaycastAll(mouseLocation, Vector2.zero);
+        bool hasEnemy = false;
+        bool isAttackable = false;
+        foreach (var hit in hits)
         {
-            return true;
+            if (hit.collider != null)
+            {
+                if (hit.collider.gameObject.GetComponent<AttackRangeIndicator>() != null || hit.collider.gameObject.GetComponent<MoveRangeIndicator>() != null)
+                {
+                    isAttackable = true;
+                }
+                if (hit.collider.gameObject.GetComponent<Unit>() != null)
+                {
+                    Unit unit = hit.collider.gameObject.GetComponent<Unit>();
+                    if (unit.Team == Unit.UnitTeam.ENEMY)
+                    {
+                        hasEnemy = true;
+                    }
+                }
+            }
         }
-        return false;
+        bool isSelectedTileAttackable = isAttackable && hasEnemy;
+        return isSelectedTileAttackable;
     }
 }
