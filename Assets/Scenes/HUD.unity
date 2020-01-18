@@ -149,7 +149,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &349465428
 GameObject:
@@ -778,6 +778,36 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!1 &800225482
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 800225483}
+  m_Layer: 0
+  m_Name: Attack Range Indicator Container
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &800225483
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 800225482}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 3.7457554, y: 3.5376759, z: -2.0644531}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &945469665
 GameObject:
   m_ObjectHideFlags: 0
@@ -1825,7 +1855,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1977060417
 GameObject:
@@ -2021,6 +2051,9 @@ MonoBehaviour:
   ActiveTileInstance: {fileID: 2008937280}
   MoveRangeIndicatorsContainer: {fileID: 1806334792}
   MoveRangeIndicatorPrefab: {fileID: 4713607437811458402, guid: b87dcb9ef41c25442ad22e173e77d1bd,
+    type: 3}
+  AttackRangeIndicatorsContainer: {fileID: 800225482}
+  AttackRangeIndicatorPrefab: {fileID: 4713607437811458402, guid: ddeffad1da75add4b8004ec237f3c09d,
     type: 3}
   MovementArrowPrefabs:
   - {fileID: 4970871949558586442, guid: 7917133137037ae408f593e88f861fa5, type: 3}

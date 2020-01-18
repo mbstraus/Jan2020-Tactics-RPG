@@ -19,6 +19,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject ActiveTileInstance;
     [SerializeField] private GameObject MoveRangeIndicatorsContainer;
     [SerializeField] private GameObject MoveRangeIndicatorPrefab;
+    [SerializeField] private GameObject AttackRangeIndicatorsContainer;
+    [SerializeField] private GameObject AttackRangeIndicatorPrefab;
 
     [SerializeField] private List<GameObject> MovementArrowPrefabs;
     [SerializeField] private GameObject MovementPathContainer;
@@ -57,7 +59,10 @@ public class UIManager : MonoBehaviour
     {
         if (selectedUnit != null)
         {
-            ShowMoveRange(selectedUnit.CalculateMoveRange());
+            List<MapTile> moveRange = selectedUnit.CalculateMoveRange();
+            List<MapTile> attackRange = selectedUnit.CalculateAttackRange();
+            ShowMoveRange(moveRange);
+            ShowAttackRange(attackRange, moveRange);
         }
         else
         {
@@ -83,6 +88,29 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    public void ShowAttackRange(List<MapTile> attackRange, List<MapTile> moveRange)
+    {
+        ClearAttackRange();
+        foreach (var tile in attackRange)
+        {
+            // Don't show the attack indicator if the unit can already move to the tile.
+            if (moveRange.Contains(tile))
+            {
+                continue;
+            }
+            Vector3 position = new Vector3(tile.GridPosition.x + 0.5f, tile.GridPosition.y + 0.5f, 0f);
+            Instantiate(AttackRangeIndicatorPrefab, position, Quaternion.identity, AttackRangeIndicatorsContainer.transform);
+        }
+    }
+
+    public void ClearAttackRange()
+    {
+        foreach (Transform child in AttackRangeIndicatorsContainer.transform)
+        {
+            Destroy(child.gameObject);
+        }
+    }
+
     public void ShowPlayerPhase()
     {
         Animation anim = PlayerPhase.GetComponent<Animation>();
@@ -95,7 +123,7 @@ public class UIManager : MonoBehaviour
         anim.Play("PhaseHUDAnimation");
     }
 
-    public void OnTileHover(MapTile mapTile, bool isTileAccessible)
+    public void OnTileHover(MapTile mapTile, MapTile previousTile, bool isTileAccessible, bool isTileAttackable)
     {
         if (mapTile != null)
         {
@@ -105,6 +133,11 @@ public class UIManager : MonoBehaviour
             if (isTileAccessible)
             {
                 List<MapTile> movePath = BattleManager.Instance.SelectedUnit.DetermineMovePath(mapTile);
+                DrawMovementPath(movePath);
+            }
+            else if (isTileAttackable)
+            {
+                List<MapTile> movePath = BattleManager.Instance.SelectedUnit.DetermineMovePath(previousTile);
                 DrawMovementPath(movePath);
             }
             else

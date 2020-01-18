@@ -125,7 +125,7 @@ public class BattleManager : MonoBehaviour
         CurrentState.UnitMoved(SelectedUnit);
     }
 
-    public void OnTileSelected(MapTile selectedTile, Vector3 mouseLocation, bool isTileAccessible)
+    public void OnTileSelected(MapTile selectedTile, MapTile previousTile, Vector3 mouseLocation, bool isTileAccessible, bool isTileAttackable)
     {
         if (CurrentState is PlayerPhaseState && selectedTile != null)
         {
@@ -140,6 +140,10 @@ public class BattleManager : MonoBehaviour
                 if (isTileAccessible)
                 {
                     MovePlayerTo(selectedTile);
+                }
+                else if (isTileAttackable)
+                {
+                    MovePlayerTo(previousTile);
                 }
                 SetSelectedUnit(null);
                 OnUnitSelected(tileUnit);

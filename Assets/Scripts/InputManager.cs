@@ -7,10 +7,10 @@ public class InputManager : MonoBehaviour
     private GameObject activeTileInstance;
     private MapTile lastMapTile;
 
-    public delegate void TileHoverEvent(MapTile tile, bool isTileAccessible);
+    public delegate void TileHoverEvent(MapTile tile, MapTile previousTile, bool isTileAccessible, bool isTileAttackable);
     private TileHoverEvent OnTileHover;
 
-    public delegate void TileSelectedEvent(MapTile selectedTile, Vector3 mousePosition, bool isTileAccessible);
+    public delegate void TileSelectedEvent(MapTile selectedTile, MapTile previousTile, Vector3 mousePosition, bool isTileAccessible, bool isTileAttackable);
     private TileSelectedEvent OnTileSelected;
 
     void Start()
@@ -45,19 +45,24 @@ public class InputManager : MonoBehaviour
     {
         Vector3 mouseLocation = activeCamera.ScreenToWorldPoint(Input.mousePosition);
         MapTile mapTile = BattleManager.Instance.GetTileAt((int)mouseLocation.x, (int)mouseLocation.y);
+        bool isTileAccessible = IsSelectedTileAccessible(mouseLocation);
+        bool isTileAttackable = IsSelectedTileAttackable(mouseLocation);
         if (mouseLocation.x <= 0 || mouseLocation.y <= 0)
         {
             mapTile = null;
         }
         if (lastMapTile == null || lastMapTile != mapTile)
         {
-            OnTileHover(mapTile, IsSelectedTileAccessible(mouseLocation));
-            lastMapTile = mapTile;
+            OnTileHover(mapTile, lastMapTile, isTileAccessible, isTileAttackable);
+            if (isTileAccessible)
+            {
+                lastMapTile = mapTile;
+            }
         }
 
         if (Input.GetMouseButtonDown(0) && mapTile != null)
         {
-            OnTileSelected(mapTile, mouseLocation, IsSelectedTileAccessible(mouseLocation));
+            OnTileSelected(mapTile, lastMapTile, mouseLocation, isTileAccessible, isTileAttackable);
         }
     }
 
@@ -65,6 +70,16 @@ public class InputManager : MonoBehaviour
     {
         RaycastHit2D hit = Physics2D.Raycast(mouseLocation, Vector2.zero);
         if (hit.collider != null && hit.collider.gameObject.GetComponent<MoveRangeIndicator>() != null)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    private bool IsSelectedTileAttackable(Vector3 mouseLocation)
+    {
+        RaycastHit2D hit = Physics2D.Raycast(mouseLocation, Vector2.zero);
+        if (hit.collider != null && hit.collider.gameObject.GetComponent<AttackRangeIndicator>() != null)
         {
             return true;
         }

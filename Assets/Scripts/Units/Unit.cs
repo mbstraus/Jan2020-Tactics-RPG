@@ -32,15 +32,15 @@ public abstract class Unit : MonoBehaviour
         int moveCost = 0;
         List<MapTile> accessableTiles = new List<MapTile>();
 
-        ProcessTile(currentTile, accessableTiles, moveCost);
+        ProcessTile(currentTile, accessableTiles, moveCost, 0);
 
         return accessableTiles;
     }
 
-    private void ProcessTile(MapTile tileToProcess, List<MapTile> accessableTiles, int moveCost)
+    private void ProcessTile(MapTile tileToProcess, List<MapTile> accessableTiles, int moveCost, int moveCostModifier)
     {
         int localMoveCost = moveCost + tileToProcess.GetMoveCost();
-        if (localMoveCost > Movement)
+        if (localMoveCost > Movement + moveCostModifier)
         {
             return;
         }
@@ -51,8 +51,23 @@ public abstract class Unit : MonoBehaviour
         List<MapTile> adjacentTiles = BattleManager.Instance.GetAdjacentTiles(tileToProcess.GridPosition.x, tileToProcess.GridPosition.y);
         foreach (var adjacentTile in adjacentTiles)
         {
-            ProcessTile(adjacentTile, accessableTiles, localMoveCost);
+            ProcessTile(adjacentTile, accessableTiles, localMoveCost, moveCostModifier);
         }
+    }
+
+    public List<MapTile> CalculateAttackRange()
+    {
+        int unitPositionX = (int)transform.position.x;
+        int unitPositionY = (int)transform.position.y;
+        MapTile currentTile = BattleManager.Instance.GetTileAt(unitPositionX, unitPositionY);
+
+        int moveCost = 0;
+        List<MapTile> accessableTiles = new List<MapTile>();
+
+        // TODO: Move cost modifier here should be the weapon attack range.
+        ProcessTile(currentTile, accessableTiles, moveCost, 1);
+
+        return accessableTiles;
     }
 
     public List<MapTile> DetermineMovePath(MapTile mapTile)
@@ -60,7 +75,12 @@ public abstract class Unit : MonoBehaviour
         int unitPositionX = (int)transform.position.x;
         int unitPositionY = (int)transform.position.y;
 
+
         MoveCostMapTile currentTile = new MoveCostMapTile(BattleManager.Instance.GetTileAt(unitPositionX, unitPositionY), 0, null);
+        if (mapTile.Equals(currentTile.MapTile))
+        {
+            return new List<MapTile>();
+        }
         Queue<MoveCostMapTile> processingQueue = new Queue<MoveCostMapTile>();
         List<MapTile> processedTiles = new List<MapTile>();
         List<MoveCostMapTile> adjacentTiles = GetAdjacentMoveCostMapTiles(currentTile, processedTiles);
