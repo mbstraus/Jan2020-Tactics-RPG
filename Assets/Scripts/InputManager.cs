@@ -79,6 +79,11 @@ public class InputManager : MonoBehaviour
             }
             if (hit.collider != null && hit.collider.gameObject.GetComponent<Unit>() != null)
             {
+                Unit tileUnit = hit.collider.gameObject.GetComponent<Unit>();
+                if (tileUnit.CurrentHealthPoints <= 0)
+                {
+                    continue;
+                }
                 hasUnit = true;
             }
         }
@@ -101,7 +106,7 @@ public class InputManager : MonoBehaviour
                 if (hit.collider.gameObject.GetComponent<Unit>() != null)
                 {
                     Unit unit = hit.collider.gameObject.GetComponent<Unit>();
-                    if (unit.Team == Unit.UnitTeam.ENEMY)
+                    if (unit.CurrentHealthPoints > 0 && unit.Team == Unit.UnitTeam.ENEMY)
                     {
                         hasEnemy = true;
                     }

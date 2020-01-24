@@ -186,6 +186,7 @@ MonoBehaviour:
   tilemap: {fileID: 1793053482}
   units:
   - {fileID: 60610790}
+  - {fileID: 720721282}
 --- !u!1001 &374199375
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -200,6 +201,42 @@ PrefabInstance:
     - target: {fileID: 60610790, guid: d07a0bf9dcbb1454da73a26b9ddb50b2, type: 3}
       propertyPath: Name
       value: Bob
+      objectReference: {fileID: 0}
+    - target: {fileID: 60610790, guid: d07a0bf9dcbb1454da73a26b9ddb50b2, type: 3}
+      propertyPath: Strength
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 60610790, guid: d07a0bf9dcbb1454da73a26b9ddb50b2, type: 3}
+      propertyPath: Magic
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 60610790, guid: d07a0bf9dcbb1454da73a26b9ddb50b2, type: 3}
+      propertyPath: Dexterity
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 60610790, guid: d07a0bf9dcbb1454da73a26b9ddb50b2, type: 3}
+      propertyPath: Speed
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 60610790, guid: d07a0bf9dcbb1454da73a26b9ddb50b2, type: 3}
+      propertyPath: Luck
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 60610790, guid: d07a0bf9dcbb1454da73a26b9ddb50b2, type: 3}
+      propertyPath: Defense
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 60610790, guid: d07a0bf9dcbb1454da73a26b9ddb50b2, type: 3}
+      propertyPath: Resistance
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 60610790, guid: d07a0bf9dcbb1454da73a26b9ddb50b2, type: 3}
+      propertyPath: CurrentHealthPoints
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 60610790, guid: d07a0bf9dcbb1454da73a26b9ddb50b2, type: 3}
+      propertyPath: MaxHealthPoints
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 4881989108673761504, guid: d07a0bf9dcbb1454da73a26b9ddb50b2,
         type: 3}
@@ -398,6 +435,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &720721282 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 60610790, guid: d07a0bf9dcbb1454da73a26b9ddb50b2,
+    type: 3}
+  m_PrefabInstance: {fileID: 374199375}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22694ab9b3579aa478424fa27bf9e3ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1475827940
 GameObject:
   m_ObjectHideFlags: 0

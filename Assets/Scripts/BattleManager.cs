@@ -21,6 +21,9 @@ public class BattleManager : MonoBehaviour
     public delegate void UnitSelectedEvent(Unit selectedUnit);
     private UnitSelectedEvent OnUnitSelected;
 
+    public delegate void TileAttackedEvent(Unit attackingUnit, MapTile attackedTile);
+    private TileAttackedEvent OnTileAttacked;
+
     private void Awake()
     {
         if (Instance == null)
@@ -84,6 +87,14 @@ public class BattleManager : MonoBehaviour
     {
         OnUnitSelected -= onUnitSelected;
     }
+    public void RegisterOnTileAttackedEvent(TileAttackedEvent onTileAttacked)
+    {
+        OnTileAttacked += onTileAttacked;
+    }
+    public void UnregisterOnTileAttackedEvent(TileAttackedEvent onTileAttacked)
+    {
+        OnTileAttacked -= onTileAttacked;
+    }
 
     public MapTile GetTileAt(int x, int y)
     {
@@ -96,6 +107,10 @@ public class BattleManager : MonoBehaviour
         {
             if ((int) unit.transform.position.x == mapTile.GridPosition.x && (int) unit.transform.position.y == mapTile.GridPosition.y)
             {
+                if (unit.CurrentHealthPoints <= 0)
+                {
+                    continue;
+                }
                 return unit;
             }
         }
@@ -130,7 +145,7 @@ public class BattleManager : MonoBehaviour
         if (CurrentState is PlayerPhaseState && selectedTile != null)
         {
             Unit tileUnit = GetUnitAtTile(selectedTile);
-            if (tileUnit != null)
+            if (tileUnit != null && tileUnit.Team == Unit.UnitTeam.PLAYER)
             {
                 SetSelectedUnit(tileUnit);
                 OnUnitSelected(tileUnit);
@@ -144,10 +159,80 @@ public class BattleManager : MonoBehaviour
                 else if (isTileAttackable)
                 {
                     MovePlayerTo(previousTile);
+                    AttackTile(selectedTile);
                 }
                 SetSelectedUnit(null);
-                OnUnitSelected(tileUnit);
+                OnUnitSelected(null);
             }
         }
+    }
+
+    public void AttackTile(MapTile selectedTile)
+    {
+        Unit attackingUnit = SelectedUnit;
+        Unit defendingUnit = GetUnitAtTile(selectedTile);
+
+        if (attackingUnit == null || defendingUnit == null || attackingUnit == defendingUnit)
+        {
+            Debug.LogError("Something went wrong attacking the tile... " + attackingUnit + " - " + defendingUnit);
+            return;
+        }
+
+        bool attackerIsHit = UnityEngine.Random.Range(0, 100) <= CalculateHitChance(attackingUnit, defendingUnit);
+        bool attackerIsCrit = UnityEngine.Random.Range(0, 100) <= CalculateCritChance(attackingUnit, defendingUnit);
+        if (attackerIsHit)
+        {
+            int damage = CalculateDamage(attackingUnit, defendingUnit) * (attackerIsCrit ? 3 : 1);
+            defendingUnit.CurrentHealthPoints -= damage;
+            Debug.Log("Attacking unit dealt " + damage + " to enemy!");
+        }
+        else
+        {
+            Debug.Log("Attacking unit missed!");
+        }
+
+        if (defendingUnit.CurrentHealthPoints <= 0)
+        {
+            Debug.Log("Defending unit died!");
+            defendingUnit.GetComponent<SpriteRenderer>().enabled = false;
+            return;
+        }
+
+        bool defenderIsHit = UnityEngine.Random.Range(0, 100) <= CalculateHitChance(defendingUnit, attackingUnit);
+        bool defenderIsCrit = UnityEngine.Random.Range(0, 100) <= CalculateCritChance(defendingUnit, attackingUnit);
+        if (defenderIsHit)
+        {
+            int damage = CalculateDamage(defendingUnit, attackingUnit) * (defenderIsCrit ? 3 : 1);
+            attackingUnit.CurrentHealthPoints -= damage;
+            Debug.Log("Defending unit dealt " + damage + " to attacker!");
+        }
+        else
+        {
+            Debug.Log("Defending unit missed!");
+        }
+
+        if (attackingUnit.CurrentHealthPoints <= 0)
+        {
+            Debug.Log("Attacking unit died!");
+            attackingUnit.GetComponent<SpriteRenderer>().enabled = false;
+            return;
+        }
+    }
+
+    public static int CalculateDamage(Unit attackingUnit, Unit defendingUnit)
+    {
+        // Formula: Attacker [ATK] Weapon/Spell Might + Strength
+        return Mathf.Max(attackingUnit.WeaponAttack - defendingUnit.Defense, 0);
+    }
+
+    public static int CalculateHitChance(Unit attackingUnit, Unit defendingUnit)
+    {
+        // Simulating attacking with an iron sword for simplicity (hit rate of 90, weight of 5).
+        return Mathf.Clamp(attackingUnit.WeaponHit - defendingUnit.Avoid, 0, 100);
+    }
+
+    public static int CalculateCritChance(Unit attackingUnit, Unit defendingUnit)
+    {
+        return Mathf.Clamp(attackingUnit.WeaponCrit - defendingUnit.Luck, 0, 100);
     }
 }

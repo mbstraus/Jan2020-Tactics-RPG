@@ -23,6 +23,18 @@ public abstract class Unit : MonoBehaviour
     [SerializeField] public int Movement;
     [SerializeField] public UnitTeam Team;
 
+    // For all calculations below, assuming currently equipped item is an Iron Sword:
+    // Range 1, 5 Weight, 5 Might, 90 Hit, 0 Crit
+
+    // Formula: Weapon Might + Unit Strength
+    public int WeaponAttack => 5 + Strength;
+    // Formula: Weapon Hit + Unit Dexterity
+    public int WeaponHit => 90 + Dexterity;
+    // Formula: Weapon Crit + (Unit Dexterity + Unit Luck) / 2
+    public int WeaponCrit => 0 + (Dexterity + Luck) / 2;
+    // Formula: Unit Speed - Total Weight
+    public int Avoid => Speed - 5;
+
     public List<MapTile> CalculateMoveRange()
     {
         int unitPositionX = (int)transform.position.x;
