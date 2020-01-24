@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 4926412214856583997}
   - component: {fileID: 8219150982294211156}
   - component: {fileID: -2991763529869742557}
-  - component: {fileID: 6176852190120459184}
+  - component: {fileID: -8504507457702182499}
   m_Layer: 0
-  m_Name: MoveRangeIndicator
+  m_Name: AttackRangeIndicator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -72,7 +72,7 @@ SpriteRenderer:
   m_SortingLayerID: -1416310131
   m_SortingLayer: 2
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 1251cf931e1f1204685003a7e680e5c3, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e04c2a5799569cc46b4cabc613c2c9cf, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 0.39215687}
   m_FlipX: 0
   m_FlipY: 0
@@ -109,7 +109,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &6176852190120459184
+--- !u!114 &-8504507457702182499
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -118,6 +118,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 4713607437811458402}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0ba735dd303bea34bbdd70b49a7e4dcc, type: 3}
+  m_Script: {fileID: 11500000, guid: a010ff85d74508343aea053f1a6b20ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

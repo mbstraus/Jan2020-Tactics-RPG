@@ -121,43 +121,24 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &60610788 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4881989108673761504, guid: 74c18e50f3b164f49aeaa136c8567b34,
-    type: 3}
-  m_PrefabInstance: {fileID: 4881989108614793220}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &60610789 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4881989108673761505, guid: 74c18e50f3b164f49aeaa136c8567b34,
     type: 3}
   m_PrefabInstance: {fileID: 4881989108614793220}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &60610790
+--- !u!114 &60610790 stripped
 MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 60610790, guid: 74c18e50f3b164f49aeaa136c8567b34,
+    type: 3}
+  m_PrefabInstance: {fileID: 4881989108614793220}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 60610788}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 22694ab9b3579aa478424fa27bf9e3ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Name: Joe
-  CurrentHealthPoints: 27
-  MaxHealthPoints: 27
-  Level: 1
-  Strength: 13
-  Magic: 6
-  Dexterity: 9
-  Speed: 8
-  Luck: 8
-  Defense: 6
-  Resistance: 6
-  Movement: 4
-  Team: 0
 --- !u!1 &342892751
 GameObject:
   m_ObjectHideFlags: 0
@@ -205,6 +186,126 @@ MonoBehaviour:
   tilemap: {fileID: 1793053482}
   units:
   - {fileID: 60610790}
+  - {fileID: 720721282}
+--- !u!1001 &374199375
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1475827941}
+    m_Modifications:
+    - target: {fileID: 60610790, guid: d07a0bf9dcbb1454da73a26b9ddb50b2, type: 3}
+      propertyPath: Team
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 60610790, guid: d07a0bf9dcbb1454da73a26b9ddb50b2, type: 3}
+      propertyPath: Name
+      value: Bob
+      objectReference: {fileID: 0}
+    - target: {fileID: 60610790, guid: d07a0bf9dcbb1454da73a26b9ddb50b2, type: 3}
+      propertyPath: Strength
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 60610790, guid: d07a0bf9dcbb1454da73a26b9ddb50b2, type: 3}
+      propertyPath: Magic
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 60610790, guid: d07a0bf9dcbb1454da73a26b9ddb50b2, type: 3}
+      propertyPath: Dexterity
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 60610790, guid: d07a0bf9dcbb1454da73a26b9ddb50b2, type: 3}
+      propertyPath: Speed
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 60610790, guid: d07a0bf9dcbb1454da73a26b9ddb50b2, type: 3}
+      propertyPath: Luck
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 60610790, guid: d07a0bf9dcbb1454da73a26b9ddb50b2, type: 3}
+      propertyPath: Defense
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 60610790, guid: d07a0bf9dcbb1454da73a26b9ddb50b2, type: 3}
+      propertyPath: Resistance
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 60610790, guid: d07a0bf9dcbb1454da73a26b9ddb50b2, type: 3}
+      propertyPath: CurrentHealthPoints
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 60610790, guid: d07a0bf9dcbb1454da73a26b9ddb50b2, type: 3}
+      propertyPath: MaxHealthPoints
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 4881989108673761504, guid: d07a0bf9dcbb1454da73a26b9ddb50b2,
+        type: 3}
+      propertyPath: m_Name
+      value: Enemy Warrior
+      objectReference: {fileID: 0}
+    - target: {fileID: 4881989108673761505, guid: d07a0bf9dcbb1454da73a26b9ddb50b2,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4881989108673761505, guid: d07a0bf9dcbb1454da73a26b9ddb50b2,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4881989108673761505, guid: d07a0bf9dcbb1454da73a26b9ddb50b2,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4881989108673761505, guid: d07a0bf9dcbb1454da73a26b9ddb50b2,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4881989108673761505, guid: d07a0bf9dcbb1454da73a26b9ddb50b2,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4881989108673761505, guid: d07a0bf9dcbb1454da73a26b9ddb50b2,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4881989108673761505, guid: d07a0bf9dcbb1454da73a26b9ddb50b2,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4881989108673761505, guid: d07a0bf9dcbb1454da73a26b9ddb50b2,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4881989108673761505, guid: d07a0bf9dcbb1454da73a26b9ddb50b2,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4881989108673761505, guid: d07a0bf9dcbb1454da73a26b9ddb50b2,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4881989108673761505, guid: d07a0bf9dcbb1454da73a26b9ddb50b2,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: d07a0bf9dcbb1454da73a26b9ddb50b2, type: 3}
+--- !u!4 &374199376 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4881989108673761505, guid: d07a0bf9dcbb1454da73a26b9ddb50b2,
+    type: 3}
+  m_PrefabInstance: {fileID: 374199375}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &484113383
 GameObject:
   m_ObjectHideFlags: 0
@@ -334,6 +435,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &720721282 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 60610790, guid: d07a0bf9dcbb1454da73a26b9ddb50b2,
+    type: 3}
+  m_PrefabInstance: {fileID: 374199375}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22694ab9b3579aa478424fa27bf9e3ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1475827940
 GameObject:
   m_ObjectHideFlags: 0
@@ -344,7 +457,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1475827941}
   m_Layer: 0
-  m_Name: Player Units
+  m_Name: Units
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -362,6 +475,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 60610789}
+  - {fileID: 374199376}
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
