@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.SceneManagement;
 
 public class BattleManager : MonoBehaviour
 {
@@ -30,16 +30,20 @@ public class BattleManager : MonoBehaviour
         {
             Instance = this;
         }
+
+        if (!SceneManager.GetSceneByName("HUD").isLoaded)
+        {
+            SceneManager.LoadScene("HUD", LoadSceneMode.Additive);
+        }
     }
 
     void Start()
     {
-        map = new Map(tilemap);
-
         if (tilemap == null)
         {
             tilemap = FindObjectOfType<Tilemap>();
         }
+        map = new Map(tilemap);
 
         if (units == null)
         {
@@ -142,7 +146,7 @@ public class BattleManager : MonoBehaviour
 
     public void OnTileSelected(MapTile selectedTile, MapTile previousTile, Vector3 mouseLocation, bool isTileAccessible, bool isTileAttackable)
     {
-        if (CurrentState is PlayerPhaseState && selectedTile != null)
+        if (CurrentState is PlayerPhaseState && CurrentState.IsPhaseStarted && selectedTile != null)
         {
             Unit tileUnit = GetUnitAtTile(selectedTile);
             if (tileUnit != null && tileUnit.Team == Unit.UnitTeam.PLAYER)

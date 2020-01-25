@@ -18,7 +18,7 @@ public class EnemyPhaseState : BattlePhaseState
 
     public override void Tick()
     {
-        if (Input.GetKeyDown(KeyCode.N))
+        if (IsPhaseStarted)
         {
             battlePhaseManager.SetState(new PlayerPhaseState(battlePhaseManager));
         }
@@ -26,7 +26,13 @@ public class EnemyPhaseState : BattlePhaseState
 
     public override void OnStateEnter()
     {
-        UIManager.Instance.ShowEnemyPhase();
+        UIManager.Instance.ShowEnemyPhase(PhaseStart);
+    }
+
+    public void EnemyPhaseStart()
+    {
+        // There is no AI right now, so just immediately end the phase.
+        battlePhaseManager.SetState(new PlayerPhaseState(battlePhaseManager));
     }
 
     public override void UnitMoved(Unit unit)

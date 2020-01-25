@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using TMPro;
-using System;
 using System.Collections.Generic;
 
 public class UIManager : MonoBehaviour
@@ -36,23 +35,6 @@ public class UIManager : MonoBehaviour
         inputManager.RegisterMouseOverTileEvent(OnTileHover);
 
         BattleManager.Instance.RegisterOnUnitSelectedEvent(OnUnitSelected);
-    }
-
-    private void Update()
-    {
-        Unit selectedUnit = BattleManager.Instance.SelectedUnit;
-        if (selectedUnit != null)
-        {
-            SelectedUnitHUD.gameObject.SetActive(true);
-            LevelField.text = selectedUnit.Level.ToString();
-            CurrentHPField.text = selectedUnit.CurrentHealthPoints.ToString();
-            MaxHPField.text = selectedUnit.MaxHealthPoints.ToString();
-            SelectedUnitName.text = selectedUnit.Name;
-        }
-        else if (selectedUnit == null)
-        {
-            SelectedUnitHUD.gameObject.SetActive(false);
-        }
     }
 
     public void OnUnitSelected(Unit selectedUnit)
@@ -112,16 +94,16 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void ShowPlayerPhase()
+    public delegate void PhaseAnimationEndCallback();
+
+    public void ShowPlayerPhase(PhaseAnimationEndCallback completeCallback)
     {
-        Animation anim = PlayerPhase.GetComponent<Animation>();
-        anim.Play("PhaseHUDAnimation");
+        PlayerPhase.ShowPlayerPhase(completeCallback);
     }
 
-    public void ShowEnemyPhase()
+    public void ShowEnemyPhase(PhaseAnimationEndCallback completeCallback)
     {
-        Animation anim = EnemyPhase.GetComponent<Animation>();
-        anim.Play("PhaseHUDAnimation");
+        EnemyPhase.ShowEnemyPhase(completeCallback);
     }
 
     public void OnTileHover(MapTile mapTile, MapTile previousTile, bool isTileAccessible, bool isTileAttackable)
@@ -130,6 +112,20 @@ public class UIManager : MonoBehaviour
         {
             ActiveTileInstance.transform.position = new Vector3(mapTile.GridPosition.x + 0.5f, mapTile.GridPosition.y + 0.5f, 0f);
             ActiveTileInstance.SetActive(true);
+
+            Unit selectedUnit = BattleManager.Instance.GetUnitAtTile(mapTile);
+            if (selectedUnit != null)
+            {
+                SelectedUnitHUD.gameObject.SetActive(true);
+                LevelField.text = selectedUnit.Level.ToString();
+                CurrentHPField.text = selectedUnit.CurrentHealthPoints.ToString();
+                MaxHPField.text = selectedUnit.MaxHealthPoints.ToString();
+                SelectedUnitName.text = selectedUnit.Name;
+            }
+            else if (selectedUnit == null)
+            {
+                SelectedUnitHUD.gameObject.SetActive(false);
+            }
 
             if (isTileAccessible)
             {

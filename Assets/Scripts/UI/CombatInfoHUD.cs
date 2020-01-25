@@ -1,6 +1,5 @@
 ﻿using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class CombatInfoHUD : MonoBehaviour
 {
@@ -15,17 +14,11 @@ public class CombatInfoHUD : MonoBehaviour
     [SerializeField] private TextMeshProUGUI EnemyCritText;
     [SerializeField] private TextMeshProUGUI EnemyCurrentHPText;
 
-    // Start is called before the first frame update
     void Start()
     {
         InputManager inputManager = FindObjectOfType<InputManager>();
         inputManager.RegisterMouseOverTileEvent(OnTileHover);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        gameObject.SetActive(false);
     }
 
     public void OnTileHover(MapTile mapTile, MapTile previousTile, bool isTileAccessible, bool isTileAttackable)
@@ -36,8 +29,10 @@ public class CombatInfoHUD : MonoBehaviour
             Unit targetUnit = BattleManager.Instance.GetUnitAtTile(mapTile);
             if (targetUnit == null || targetUnit == selectedUnit)
             {
+                gameObject.SetActive(false);
                 return;
             }
+            gameObject.SetActive(true);
             PlayerUnitNameText.text = selectedUnit.Name;
             PlayerCurrentHPText.text = selectedUnit.CurrentHealthPoints.ToString();
             PlayerAttackText.text = BattleManager.CalculateDamage(selectedUnit, targetUnit).ToString();
@@ -48,6 +43,10 @@ public class CombatInfoHUD : MonoBehaviour
             EnemyAttackText.text = BattleManager.CalculateDamage(targetUnit, selectedUnit).ToString();
             EnemyHitText.text = BattleManager.CalculateHitChance(targetUnit, selectedUnit).ToString() + "%";
             EnemyCritText.text = BattleManager.CalculateCritChance(targetUnit, selectedUnit).ToString() + "%";
+        }
+        else
+        {
+            gameObject.SetActive(false);
         }
     }
 }

@@ -284,7 +284,6 @@ GameObject:
   - component: {fileID: 349465429}
   - component: {fileID: 349465433}
   - component: {fileID: 349465432}
-  - component: {fileID: 349465431}
   - component: {fileID: 349465430}
   m_Layer: 5
   m_Name: Enemy Phase
@@ -325,22 +324,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1132a7cf10e6374190578453f12de6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!111 &349465431
-Animation:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 349465428}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Animation: {fileID: 7400000, guid: 5e049935aa026de449d848c1d301c2ac, type: 2}
-  m_Animations:
-  - {fileID: 7400000, guid: 5e049935aa026de449d848c1d301c2ac, type: 2}
-  m_WrapMode: 0
-  m_PlayAutomatically: 0
-  m_AnimatePhysics: 0
-  m_CullingType: 0
 --- !u!114 &349465432
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4272,7 +4255,6 @@ GameObject:
   - component: {fileID: 1726414622}
   - component: {fileID: 1726414625}
   - component: {fileID: 1726414624}
-  - component: {fileID: 1726414623}
   - component: {fileID: 1726414626}
   m_Layer: 5
   m_Name: Player Phase
@@ -4301,22 +4283,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 40}
   m_SizeDelta: {x: 0, y: 40}
   m_Pivot: {x: 0.5, y: 1}
---- !u!111 &1726414623
-Animation:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1726414621}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Animation: {fileID: 7400000, guid: 5e049935aa026de449d848c1d301c2ac, type: 2}
-  m_Animations:
-  - {fileID: 7400000, guid: 5e049935aa026de449d848c1d301c2ac, type: 2}
-  m_WrapMode: 0
-  m_PlayAutomatically: 0
-  m_AnimatePhysics: 0
-  m_CullingType: 0
 --- !u!114 &1726414624
 MonoBehaviour:
   m_ObjectHideFlags: 0
