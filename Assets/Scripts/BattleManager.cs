@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.SceneManagement;
 
 public class BattleManager : MonoBehaviour
 {
@@ -30,16 +30,20 @@ public class BattleManager : MonoBehaviour
         {
             Instance = this;
         }
+
+        if (!SceneManager.GetSceneByName("HUD").isLoaded)
+        {
+            SceneManager.LoadScene("HUD", LoadSceneMode.Additive);
+        }
     }
 
     void Start()
     {
-        map = new Map(tilemap);
-
         if (tilemap == null)
         {
             tilemap = FindObjectOfType<Tilemap>();
         }
+        map = new Map(tilemap);
 
         if (units == null)
         {
@@ -142,7 +146,7 @@ public class BattleManager : MonoBehaviour
 
     public void OnTileSelected(MapTile selectedTile, MapTile previousTile, Vector3 mouseLocation, bool isTileAccessible, bool isTileAttackable)
     {
-        if (CurrentState is PlayerPhaseState && selectedTile != null)
+        if (CurrentState is PlayerPhaseState && CurrentState.IsPhaseStarted && selectedTile != null)
         {
             Unit tileUnit = GetUnitAtTile(selectedTile);
             if (tileUnit != null && tileUnit.Team == Unit.UnitTeam.PLAYER)
@@ -183,11 +187,12 @@ public class BattleManager : MonoBehaviour
         if (attackerIsHit)
         {
             int damage = CalculateDamage(attackingUnit, defendingUnit) * (attackerIsCrit ? 3 : 1);
-            defendingUnit.CurrentHealthPoints -= damage;
+            defendingUnit.TakeDamage(damage);
             Debug.Log("Attacking unit dealt " + damage + " to enemy!");
         }
         else
         {
+            defendingUnit.TakeDamage(0);
             Debug.Log("Attacking unit missed!");
         }
 
@@ -203,11 +208,12 @@ public class BattleManager : MonoBehaviour
         if (defenderIsHit)
         {
             int damage = CalculateDamage(defendingUnit, attackingUnit) * (defenderIsCrit ? 3 : 1);
-            attackingUnit.CurrentHealthPoints -= damage;
+            attackingUnit.TakeDamage(damage);
             Debug.Log("Defending unit dealt " + damage + " to attacker!");
         }
         else
         {
+            attackingUnit.TakeDamage(0);
             Debug.Log("Defending unit missed!");
         }
 

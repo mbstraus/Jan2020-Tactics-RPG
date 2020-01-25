@@ -25,7 +25,7 @@ public class PlayerPhaseState : BattlePhaseState
 
     public override void OnStateEnter()
     {
-        UIManager.Instance.ShowPlayerPhase();
+        UIManager.Instance.ShowPlayerPhase(PhaseStart);
     }
 
     public override void UnitMoved(Unit unit)
