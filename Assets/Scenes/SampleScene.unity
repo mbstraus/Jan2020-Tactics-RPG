@@ -238,6 +238,11 @@ PrefabInstance:
       propertyPath: MaxHealthPoints
       value: 18
       objectReference: {fileID: 0}
+    - target: {fileID: 950265780317382536, guid: d07a0bf9dcbb1454da73a26b9ddb50b2,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 4881989108673761504, guid: d07a0bf9dcbb1454da73a26b9ddb50b2,
         type: 3}
       propertyPath: m_Name
@@ -296,6 +301,26 @@ PrefabInstance:
     - target: {fileID: 4881989108673761505, guid: d07a0bf9dcbb1454da73a26b9ddb50b2,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8267478267925133526, guid: d07a0bf9dcbb1454da73a26b9ddb50b2,
+        type: 3}
+      propertyPath: m_textInfo.characterCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8267478267925133526, guid: d07a0bf9dcbb1454da73a26b9ddb50b2,
+        type: 3}
+      propertyPath: m_textInfo.wordCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8267478267925133526, guid: d07a0bf9dcbb1454da73a26b9ddb50b2,
+        type: 3}
+      propertyPath: m_textInfo.lineCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8267478267925133526, guid: d07a0bf9dcbb1454da73a26b9ddb50b2,
+        type: 3}
+      propertyPath: m_textInfo.pageCount
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -1479,6 +1504,31 @@ PrefabInstance:
     - target: {fileID: 4881989108673761505, guid: 74c18e50f3b164f49aeaa136c8567b34,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5653039400715127465, guid: 74c18e50f3b164f49aeaa136c8567b34,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6098691323770344333, guid: 74c18e50f3b164f49aeaa136c8567b34,
+        type: 3}
+      propertyPath: m_textInfo.characterCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6098691323770344333, guid: 74c18e50f3b164f49aeaa136c8567b34,
+        type: 3}
+      propertyPath: m_textInfo.wordCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6098691323770344333, guid: 74c18e50f3b164f49aeaa136c8567b34,
+        type: 3}
+      propertyPath: m_textInfo.lineCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6098691323770344333, guid: 74c18e50f3b164f49aeaa136c8567b34,
+        type: 3}
+      propertyPath: m_textInfo.pageCount
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

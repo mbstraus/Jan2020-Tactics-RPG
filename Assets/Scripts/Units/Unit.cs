@@ -1,7 +1,8 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
+using DG.Tweening;
 
 public abstract class Unit : MonoBehaviour
 {
@@ -22,6 +23,8 @@ public abstract class Unit : MonoBehaviour
     [SerializeField] public int Resistance;
     [SerializeField] public int Movement;
     [SerializeField] public UnitTeam Team;
+    [SerializeField] private TextMeshPro FloatingDamageText;
+    [SerializeField] private RectTransform FloatingDamageTextRectTransform;
 
     // For all calculations below, assuming currently equipped item is an Iron Sword:
     // Range 1, 5 Weight, 5 Might, 90 Hit, 0 Crit
@@ -34,6 +37,10 @@ public abstract class Unit : MonoBehaviour
     public int WeaponCrit => 0 + (Dexterity + Luck) / 2;
     // Formula: Unit Speed - Total Weight
     public int Avoid => Speed - 5;
+
+    private void Start()
+    {
+    }
 
     public List<MapTile> CalculateMoveRange()
     {
@@ -151,5 +158,40 @@ public abstract class Unit : MonoBehaviour
 
         moveList.Reverse();
         return moveList;
+    }
+
+    public void TakeDamage(int damageAmount)
+    {
+        StartCoroutine("PlayFloatingDamage", damageAmount);
+        CurrentHealthPoints -= damageAmount;
+    }
+
+    public IEnumerator PlayFloatingDamage(int damageAmount)
+    {
+        if (FloatingDamageText == null)
+        {
+            FloatingDamageText = GetComponentInChildren<TextMeshPro>();
+        }
+        if (FloatingDamageTextRectTransform == null)
+        {
+            FloatingDamageTextRectTransform = FloatingDamageText.GetComponent<RectTransform>();
+        }
+        FloatingDamageText.text = "";
+        if (damageAmount > 0)
+        {
+            FloatingDamageText.text = damageAmount.ToString();
+        }
+        else
+        {
+            FloatingDamageText.text = "Miss";
+        }
+        Vector2 originalTransform = new Vector2(FloatingDamageTextRectTransform.anchoredPosition.x, FloatingDamageTextRectTransform.anchoredPosition.y);
+
+        Tween tween = FloatingDamageTextRectTransform.DOAnchorPosY(1, 0.5f);
+        tween.Play();
+        yield return tween.WaitForCompletion();
+
+        FloatingDamageTextRectTransform.anchoredPosition = originalTransform;
+        FloatingDamageText.text = "";
     }
 }

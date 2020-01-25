@@ -50,3 +50,6 @@ TagManager:
   - name: Units
     uniqueID: 1169760153
     locked: 0
+  - name: Floating Text
+    uniqueID: 85845819
+    locked: 0
